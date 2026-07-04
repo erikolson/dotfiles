@@ -46,3 +46,4 @@ alias docker-which-backend='
     echo "none"
   fi
 '
+export PATH="$(go env GOPATH)/bin:$PATH"
