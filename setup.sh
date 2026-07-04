@@ -43,13 +43,20 @@ backup_and_link "${DOTFILES}/config/starship.toml"     "${HOME}/.config/starship
 mkdir -p "${HOME}/.config/nix"
 backup_and_link "${DOTFILES}/config/nix/nix.conf"     "${HOME}/.config/nix/nix.conf"
 
+# Claude Code global preferences (settings + status line). Only these curated files
+# are versioned; the rest of ~/.claude (transcripts, history, sessions, caches) is not.
+mkdir -p "${HOME}/.claude"
+backup_and_link "${DOTFILES}/claude/settings.json"    "${HOME}/.claude/settings.json"
+backup_and_link "${DOTFILES}/claude/statusline.sh"    "${HOME}/.claude/statusline.sh"
+
 echo "🔒 Making .sh scripts executable..."
 find "${DOTFILES}" -type f -name "*.sh" -exec chmod +x {} \;
 
 echo
 echo "📄 Final symlink status:"
 ls -l "${HOME}/.zprofile" "${HOME}/.zshrc" "${HOME}/.envrc" \
-      "${HOME}/.config/nvim" "${HOME}/.config/ghostty" "${HOME}/.config/starship.toml" 2>/dev/null || true
+      "${HOME}/.config/nvim" "${HOME}/.config/ghostty" "${HOME}/.config/starship.toml" \
+      "${HOME}/.claude/settings.json" "${HOME}/.claude/statusline.sh" 2>/dev/null || true
 
 # 🐳 Docker: add aliases & print backend (no auto-start during setup)
 # Requires: scripts/docker/docker-bootstrap.sh (from our earlier step)
