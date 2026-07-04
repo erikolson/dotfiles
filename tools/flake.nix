@@ -29,6 +29,9 @@
 
               # Fast recursive search
               pkgs.ripgrep
+
+              # Helix editor (binary is `hx`)
+              pkgs.helix
             ];
           };
         });
