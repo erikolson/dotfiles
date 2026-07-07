@@ -34,6 +34,12 @@ backup_and_link() {
 echo "🔧 Symlinking config files with backups to ${BACKUP_DIR}..."
 backup_and_link "${DOTFILES}/.zprofile"                "${HOME}/.zprofile"
 backup_and_link "${DOTFILES}/.zshrc"                   "${HOME}/.zshrc"
+# .envrc is gitignored (machine-local direnv activation file). Seed it from the
+# tracked template on first run so the symlink below never dangles on a fresh clone.
+if [ ! -e "${DOTFILES}/.envrc" ]; then
+  cp "${DOTFILES}/.envrc.example" "${DOTFILES}/.envrc"
+  echo "🌱 Seeded ${DOTFILES}/.envrc from .envrc.example"
+fi
 backup_and_link "${DOTFILES}/.envrc"                   "${HOME}/.envrc"
 backup_and_link "${DOTFILES}/config/nvim"              "${HOME}/.config/nvim"
 backup_and_link "${DOTFILES}/config/ghostty"           "${HOME}/.config/ghostty"
@@ -57,6 +63,12 @@ echo "📄 Final symlink status:"
 ls -l "${HOME}/.zprofile" "${HOME}/.zshrc" "${HOME}/.envrc" \
       "${HOME}/.config/nvim" "${HOME}/.config/ghostty" "${HOME}/.config/starship.toml" \
       "${HOME}/.claude/settings.json" "${HOME}/.claude/statusline.sh" 2>/dev/null || true
+
+# Activate the global direnv environment (safe no-op if already allowed).
+if command -v direnv >/dev/null 2>&1; then
+  echo "🧭 Allowing global direnv environment (~)..."
+  direnv allow ~ || true
+fi
 
 # 🐳 Docker: add aliases & print backend (no auto-start during setup)
 # Requires: scripts/docker/docker-bootstrap.sh (from our earlier step)

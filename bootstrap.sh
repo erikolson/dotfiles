@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -euo pipefail
 
 echo "🚀 Starting bootstrap process..."
 
@@ -82,17 +82,14 @@ else
     echo "⚠️  No executable setup.sh found in ~/dotfiles"
 fi
 
-# --- Setup direnv global flake ---
-if command -v direnv >/dev/null 2>&1; then
-    if ! grep -Fxq 'use flake ~/dotfiles/dev-env' "$HOME/.envrc" 2>/dev/null; then
-        echo "💡 Writing .envrc for global flake..."
-        echo 'use flake ~/dotfiles/dev-env' > "$HOME/.envrc"
-        direnv allow ~
-    else
-        echo "ℹ️  .envrc already configured"
-    fi
-else
-    echo "⚠️  direnv not found — skipping .envrc setup."
+# --- direnv global flake (fallback) ---
+# setup.sh (run above) already seeds ~/dotfiles/.envrc from .envrc.example,
+# symlinks ~/.envrc to it, and runs `direnv allow ~`. This block only acts if
+# setup.sh was skipped (e.g. not executable), so ~/.envrc is never left missing.
+if command -v direnv >/dev/null 2>&1 && [ ! -e "$HOME/.envrc" ]; then
+    echo "💡 Fallback: creating ~/.envrc for global flake..."
+    cp "$HOME/dotfiles/.envrc.example" "$HOME/.envrc"
+    direnv allow ~ || true
 fi
 
 echo "✅ Bootstrap complete. Restart your terminal or run: exec $SHELL -l"

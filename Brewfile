@@ -29,7 +29,7 @@ brew "docker"
 brew "docker-buildx"
 brew "docker-compose"
 # Optional (Keychain integration if you ever run without Desktop)
-# brew "docker-credential-helper"  # osxkeychain helper :contentReference[oaicite:4]{index=4}
+# brew "docker-credential-helper"  # osxkeychain helper
 
 # Docker Backends
 cask "docker-desktop"     # Docker Desktop (GUI, built-in k8s option)
