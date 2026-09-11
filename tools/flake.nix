@@ -23,7 +23,11 @@
               # Git multiplexer for process & product separation
               pgit.packages.${system}.default
 
-              # Claude Code Git — keep Claude files out of product repo
+              # Claude Code Git — keep Claude files out of product repo.
+              # TODO: probably superseded by pgit above, which generalizes the
+              # same idea. ccg is also a PRIVATE repo, so nix's github: fetcher
+              # 404s unauthenticated: it silently never updates, and a fresh
+              # machine cannot bootstrap. Decide to drop it or make it public.
               ccg.packages.${system}.default
 
               # GitHub CLI
