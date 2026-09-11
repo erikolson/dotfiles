@@ -9,7 +9,9 @@
 
   outputs = { nixpkgs, pgit, ccg, ... }:
     let
-      supportedSystems = [ "x86_64-darwin" "aarch64-darwin" "x86_64-linux" "aarch64-linux" ];
+      # x86_64-darwin omitted: nixpkgs 26.11 dropped support for Intel Macs.
+      # For those, use the `x86-darwin-last` git tag (nixpkgs pinned 2026-02-07).
+      supportedSystems = [ "aarch64-darwin" "x86_64-linux" "aarch64-linux" ];
       forAllSystems = f: nixpkgs.lib.genAttrs supportedSystems (system: f system);
     in {
       packages = forAllSystems (system:
@@ -32,6 +34,9 @@
 
               # Helix editor (binary is `hx`)
               pkgs.helix
+
+              # Terminal agent multiplexer
+              pkgs.herdr
             ];
           };
         });
