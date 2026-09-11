@@ -1,6 +1,7 @@
 #!/bin/sh
-# Strip Co-Authored-By trailers naming Claude or anthropic.com from a commit message.
-# Deletes only the matching line and its own newline, so the blank line separating
-# the body from the trailer block survives. git's cleanup, which runs after the
-# commit-msg hook, trims any trailing blank lines left behind.
-perl -0777 -i -pe 's/^Co-Authored-By:[^\n]*(?:Claude|anthropic\.com)[^\n]*(?:\n|\z)//gmi' "$1"
+# Strip AI attribution trailers from a commit message: Co-Authored-By lines naming
+# Claude or anthropic.com, and Claude-Session links. Deletes only each matching line
+# and its own newline, so the blank line separating the body from the trailer block
+# survives. git's cleanup, which runs after the commit-msg hook, trims any trailing
+# blank lines left behind.
+perl -0777 -i -pe 's/^(?:Co-Authored-By:[^\n]*(?:Claude|anthropic\.com)[^\n]*|Claude-Session:[^\n]*)(?:\n|\z)//gmi' "$1"
