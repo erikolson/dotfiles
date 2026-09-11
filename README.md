@@ -32,7 +32,7 @@ Three layers, chosen by role rather than habit:
 - **Global CLI tools** (`tools/flake.nix`): ripgrep, GitHub CLI, Helix, plus custom git tooling for process/product separation.
 - **Editor**: Neovim, configured with `lazy.nvim` (config in `config/nvim`, plugins pinned via `lazy-lock.json`).
 - **Terminal & prompt**: Ghostty + Starship (flake-aware nix-shell indicator).
-- **Claude Code**: versioned global `settings.json` and a themed `statusline.sh` (model · dir · branch · token/context usage).
+- **Claude Code**: versioned global `settings.json` and a themed `statusline.sh` (model · dir · branch · token/context usage). Unlike every other linked file, `settings.json` is tool-mutated — Claude Code writes runtime toggles into it — so review stray diffs before committing.
 - **Containers/orchestration**: Docker with switchable backends (Docker Desktop ⇄ Colima) and one-command local Kubernetes (k3d / kind / minikube).
 
 ## Quick start
