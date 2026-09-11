@@ -55,12 +55,14 @@ mkdir -p "${HOME}/.claude"
 backup_and_link "${DOTFILES}/claude/settings.json"    "${HOME}/.claude/settings.json"
 backup_and_link "${DOTFILES}/claude/statusline.sh"    "${HOME}/.claude/statusline.sh"
 
-# Git commit-msg hook template. init.templateDir seeds these into .git/hooks at
-# `git init` / `git clone` time, so new repos pick the hook up automatically while
-# per-repo hooks keep working. Deliberately NOT core.hooksPath, which replaces a
-# repo's hooks directory wholesale and would clobber local hooks.
+# Git commit-msg hook. init.templateDir seeds a small shim into .git/hooks at
+# `git init` / `git clone` time; the shim delegates to strip-ai-trailers, so a fix
+# to that one tracked script reaches every repo without re-seeding. Deliberately
+# NOT core.hooksPath, which replaces a repo's hooks directory wholesale and would
+# clobber local hooks.
 mkdir -p "${HOME}/.config/git"
-backup_and_link "${DOTFILES}/config/git/template"     "${HOME}/.config/git/template"
+backup_and_link "${DOTFILES}/config/git/template"          "${HOME}/.config/git/template"
+backup_and_link "${DOTFILES}/config/git/strip-ai-trailers" "${HOME}/.config/git/strip-ai-trailers"
 git config --global init.templateDir "${HOME}/.config/git/template"
 echo "🪝 git init.templateDir -> ${HOME}/.config/git/template"
 

@@ -1,3 +1,7 @@
 #!/bin/sh
-# Strip AI co-author trailers before a commit is recorded.
-perl -0777 -i -pe 's/\n+Co-Authored-By:[^\n]*(?:Claude|anthropic\.com)[^\n]*//gi' "$1"
+# Seeded into each repo by init.templateDir. Delegates to the tracked script so a
+# fix reaches every repo without re-seeding. Fails open: if the script is missing,
+# the commit proceeds unmodified rather than being blocked.
+f="$HOME/.config/git/strip-ai-trailers"
+[ -x "$f" ] && exec "$f" "$@"
+exit 0
