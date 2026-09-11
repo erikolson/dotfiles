@@ -1,0 +1,3 @@
+#!/bin/sh
+# Strip AI co-author trailers before a commit is recorded.
+perl -0777 -i -pe 's/\n+Co-Authored-By:[^\n]*(?:Claude|anthropic\.com)[^\n]*//gi' "$1"

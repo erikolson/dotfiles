@@ -55,6 +55,15 @@ mkdir -p "${HOME}/.claude"
 backup_and_link "${DOTFILES}/claude/settings.json"    "${HOME}/.claude/settings.json"
 backup_and_link "${DOTFILES}/claude/statusline.sh"    "${HOME}/.claude/statusline.sh"
 
+# Git commit-msg hook template. init.templateDir seeds these into .git/hooks at
+# `git init` / `git clone` time, so new repos pick the hook up automatically while
+# per-repo hooks keep working. Deliberately NOT core.hooksPath, which replaces a
+# repo's hooks directory wholesale and would clobber local hooks.
+mkdir -p "${HOME}/.config/git"
+backup_and_link "${DOTFILES}/config/git/template"     "${HOME}/.config/git/template"
+git config --global init.templateDir "${HOME}/.config/git/template"
+echo "🪝 git init.templateDir -> ${HOME}/.config/git/template"
+
 echo "🔒 Making .sh scripts executable..."
 find "${DOTFILES}" -type f -name "*.sh" -exec chmod +x {} \;
 
