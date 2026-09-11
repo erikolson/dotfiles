@@ -26,6 +26,8 @@ brew:
 flake: check-nix-conf
 	cd ~/dotfiles/dev-env && nix flake update
 	@echo "❄️  dev-env flake updated."
+	cd ~/dotfiles/tools && nix flake update
+	@echo "❄️  tools flake updated."
 
 tools: check-nix-conf
 	nix profile upgrade tools
