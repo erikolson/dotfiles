@@ -1,0 +1,4 @@
+# JetBrains Mono is already Ghostty's built-in default; pinned explicitly.
+font-family = "JetBrains Mono"
+font-size = 14
+mouse-hide-while-typing = true

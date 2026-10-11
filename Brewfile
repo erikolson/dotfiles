@@ -12,7 +12,7 @@ brew "sox" #cli audio recorder
 cask "google-chrome"
 cask "ghostty"
 cask "rectangle"
-cask "font-jetbrains-mono"
+cask "font-jetbrains-mono" #not needed by ghostty (built in); kept for other apps
 cask "raycast"
 cask "stats"
 cask "1password"
