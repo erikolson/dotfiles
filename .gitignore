@@ -3,6 +3,5 @@
 .result
 .nix-gc*
 .gopath/
-lazy-lock.json
 .direnv/
 

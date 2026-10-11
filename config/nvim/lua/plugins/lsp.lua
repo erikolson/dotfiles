@@ -1,5 +1,5 @@
 -- ~/.config/nvim/lua/plugins/lsp.lua
--- Uses the new Neovim 0.11+ API: vim.lsp.config()
+-- Uses the new Neovim 0.11+ API: vim.lsp.config() + vim.lsp.enable()
 -- Falls back to lspconfig.setup() automatically on older versions.
 
 return {
@@ -12,12 +12,20 @@ return {
 
     -- Compat shim: prefer the new API, fall back to lspconfig.<server>.setup
     local use_new = vim.lsp and vim.lsp.config
-    local configure = use_new and function(server, opts) vim.lsp.config(server, opts) end
+    local setup = use_new and function(server, opts)
+        vim.lsp.config(server, opts)
+        vim.lsp.enable(server)
+      end
       or function(server, opts) require("lspconfig")[server].setup(opts) end
+
+    -- Only set up servers whose binary is on PATH, so missing ones don't error
+    local function configure(server, bin, opts)
+      if vim.fn.executable(bin) == 1 then setup(server, opts) end
+    end
 
     -- ────────────────────────────────────────────────────────────────────────────
     -- Lua (Neovim config)
-    configure("lua_ls", {
+    configure("lua_ls", "lua-language-server", {
       capabilities = capabilities,
       settings = {
         Lua = {
@@ -33,24 +41,24 @@ return {
     })
 
     -- Go
-    configure("gopls", {
+    configure("gopls", "gopls", {
       capabilities = capabilities,
       -- settings = { gopls = { hints = { assignVariableTypes = true } } },
     })
 
     -- Rust
-    configure("rust_analyzer", {
+    configure("rust_analyzer", "rust-analyzer", {
       capabilities = capabilities,
       -- settings = { ["rust-analyzer"] = { cargo = { allFeatures = true } } },
     })
 
     -- Zig
-    configure("zls", {
+    configure("zls", "zls", {
       capabilities = capabilities,
     })
 
     -- TypeScript / JavaScript (was 'tsserver')
-    configure("ts_ls", {
+    configure("ts_ls", "typescript-language-server", {
       capabilities = capabilities,
       -- settings = {
       --   typescript = { inlayHints = { includeInlayParameterNameHints = "all" } },
@@ -59,17 +67,17 @@ return {
     })
 
     -- Python
-    configure("pyright", {
+    configure("pyright", "pyright-langserver", {
       capabilities = capabilities,
     })
 
     -- Nix
-    configure("nil_ls", {
+    configure("nil_ls", "nil", {
       capabilities = capabilities,
     })
 
     -- C/C++  (requires 'clangd' on PATH; add pkgs.clang-tools in your flake)
-    configure("clangd", {
+    configure("clangd", "clangd", {
       capabilities = capabilities,
     })
   end,
