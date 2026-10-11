@@ -1,4 +1,8 @@
 {
+  "statusLine": {
+    "type": "command",
+    "command": "bash \"$HOME/.claude/statusline.sh\""
+  },
   "enabledPlugins": {
     "typescript-lsp@claude-plugins-official": true,
     "rust-analyzer-lsp@claude-plugins-official": true,
@@ -6,8 +10,6 @@
     "gopls-lsp@claude-plugins-official": true
   },
   "tui": "fullscreen",
-  "statusLine": {
-    "type": "command",
-    "command": "bash \"$HOME/.claude/statusline.sh\""
-  }
+  "agentPushNotifEnabled": true,
+  "inputNeededNotifEnabled": true
 }
