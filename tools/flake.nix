@@ -33,6 +33,9 @@
 
               # Terminal agent multiplexer
               pkgs.herdr
+
+              # Python
+              pkgs.uv
             ];
           };
         });
